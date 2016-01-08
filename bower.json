@@ -1,0 +1,11 @@
+{
+  "name": "HelloIonic",
+  "private": "true",
+  "devDependencies": {
+    "ionic": "driftyco/ionic-bower#1.2.1"
+  },
+  "dependencies": {
+    "ionic-timepicker": "~0.4.0",
+    "angular-datetime": "~2.0.0"
+  }
+}
