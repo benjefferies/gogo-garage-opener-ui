@@ -1,15 +1,7 @@
-node_modules
-www/lib
-.idea
-.temp
-.sass-cache
-<%= appPath %>/bower_components
-coverage
-platforms
-plugins
-*.swp
-*.swo
-*.log
-*.DS_Store
+# Specifies intentionally untracked files to ignore when using Git
+# http://git-scm.com/docs/gitignore
 
-app/scripts/configuration.js
+node_modules/
+platforms/
+plugins/
+.idea
