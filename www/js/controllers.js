@@ -1,7 +1,74 @@
 'use strict'
 angular.module('starter.controllers', ['ionic'])
 
-.controller('DashCtrl', function($scope) {
+.controller('DashCtrl', function($scope, GarageService) {
+
+    $scope.toggleGarage = function() {
+        GarageService.toggleGarage();
+    }
+})
+.controller('LoginCtrl', function($scope, UserService, AccountService, $ionicModal, $ionicLoading, $location) {
+
+    $scope.registration = {}
+    $scope.registration.location = {}
+    $scope.registration.configuration = {}
+
+    $scope.user = {}
+
+    $scope.login = function() {
+        UserService.login($scope.user)
+        $location.path('#/tab/dash')
+    }
+
+
+    $ionicModal.fromTemplateUrl('templates/register.html', {
+        scope: $scope
+      }).then(function(modal) {
+        $scope.modal = modal;
+      });
+
+    $scope.register = function() {
+        $scope.errors = []
+        var registration = $scope.registration;
+        if (!registration.configuration.url) {
+            $scope.errors.push("Url must be set")
+        }
+        if (!registration.configuration.port) {
+            $scope.errors.push("Port must be set")
+        }
+        if (!registration.email) {
+            $scope.errors.push("Email must be set")
+        }
+        if (!registration.password || !registration.passwordConfirmation) {
+            $scope.errors.push("Password must be set")
+        }
+        if (registration.password != registration.passwordConfirmation) {
+            $scope.errors.push("Password must be match")
+        }
+        if ($scope.errors.length == 0) {
+            AccountService.configure($scope.registration.configuration)
+            var registration = {Email : $scope.registration.email,
+              Password: $scope.registration.password,
+              Latitude: $scope.registration.location.Latitude,
+              Longitude: $scope.registration.location.Longitude
+              }
+
+            UserService.register(registration)
+            $scope.modal.hide()
+        }
+    }
+
+    $scope.getLocation = function() {
+        $ionicLoading.show({
+            template: 'Loading...'
+        })
+        navigator.geolocation.getCurrentPosition(function(position) {
+            $scope.registration.location.Latitude = position.coords.latitude
+            $scope.registration.location.Longitude = position.coords.longitude
+            $scope.registration.latLon = position.coords.latitude + ',' + position.coords.longitude
+            $ionicLoading.hide()
+        });
+    }
 })
 
 .controller('AccountCtrl', function($scope, $ionicLoading, AccountService, $ionicModal) {

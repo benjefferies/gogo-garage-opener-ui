@@ -1,0 +1,50 @@
+<ion-modal-view>
+
+  <ion-header-bar class="bar bar-header bar-positive">
+    <h1 class="title">Register</h1>
+    <button class="button button-clear button-primary" ng-click="modal.hide()">Close</button>
+    <button class="button button-clear button-primary" ng-click="register()">Register</button>
+  </ion-header-bar>
+  <ion-content>
+    <div name="erros">
+          <ul>
+            <li ng-repeat="error in errors">{{error}}</li>
+      <p ></p>
+    </div>
+    <ion-list>
+      <ion-item>
+      <label class="item item-input">
+        <input type="text" placeholder="Url" ng-model="registration.configuration.url">
+      </label>
+      </ion-item>
+        <ion-item>
+      <label class="item item-input">
+        <input type="text" placeholder="Port" integer ng-model="registration.configuration.port">
+      </label>
+        </ion-item>
+          <ion-item>
+      <div class="item item-button-right">
+        <input type="text" placeholder="Garage GPS location" ng-model="registration.latLon">
+        <button class="button button-positive" ng-click="getLocation()">
+          <i class="icon ion-ios-location"></i>
+        </button>
+      </div>
+          </ion-item>
+      <ion-item>
+        <label class="item item-input">
+          <input type="text" placeholder="Email" ng-model="registration.email">
+        </label>
+      </ion-item>
+      <ion-item>
+        <label class="item item-input">
+          <input type="password" placeholder="Password" ng-model="registration.password">
+        </label>
+      </ion-item>
+      <ion-item>
+        <label class="item item-input">
+          <input type="password" placeholder="Confirm password" ng-model="registration.passwordConfirmation">
+        </label>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-modal-view>
