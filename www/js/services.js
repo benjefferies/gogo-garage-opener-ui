@@ -6,7 +6,7 @@ angular.module('starter.services', [])
       addTimes: function(times) {
         $log.info("Creating " + JSON.stringify(times))
         var configuration = $localstorage.getObject('configuration')
-        $http.post(configuration.url + ':' + configuration.port + '/user', times)
+        $http.post(configuration.url + ':' + configuration.port + '/user/times', times)
       },
       configure: function (configuration) {
           $localstorage.setObject('configuration', configuration)
@@ -20,7 +20,9 @@ angular.module('starter.services', [])
             $log.info("Creating user " + JSON.stringify(user))
             var configuration = $localstorage.getObject('configuration')
             $rootScope.loggedInUser = user
-            $http.post(configuration.url + ':' + configuration.port + '/user/login', user)
+            $http.post(configuration.url + ':' + configuration.port + '/user/login', user).then(function(response) {
+                $http.defaults.headers.common['X-Auth-Token'] = response.headers('X-Auth-Token');
+            })
         },
         register: function(registration) {
             $log.info("Registering " + JSON.stringify(registration))

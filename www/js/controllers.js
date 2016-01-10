@@ -95,6 +95,7 @@ angular.module('starter.controllers', ['ionic'])
     }
 
     $scope.times = []
+    $scope.location = {}
 
     $scope.newTime = function () {
         var time = {days:[]}
