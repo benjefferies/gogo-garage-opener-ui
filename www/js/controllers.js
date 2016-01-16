@@ -3,6 +3,16 @@ angular.module('starter.controllers', ['ionic'])
 
 .controller('DashCtrl', function($scope, GarageService) {
 
+    getState()
+
+    function getState() {
+        GarageService.getState().then(function(response) {
+            $scope.garage = response.data
+        })
+    }
+
+
+
     $scope.toggleGarage = function() {
         GarageService.toggleGarage();
     }
@@ -16,8 +26,9 @@ angular.module('starter.controllers', ['ionic'])
     $scope.user = {}
 
     $scope.login = function() {
-        UserService.login($scope.user)
-        $location.path('#/tab/dash')
+        UserService.login($scope.user).then(function() {
+            $location.path('#/tab/dash')
+        })
     }
 
 

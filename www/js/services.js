@@ -19,9 +19,11 @@ angular.module('starter.services', [])
         login: function(user) {
             $log.info("Creating user " + JSON.stringify(user))
             var configuration = $localstorage.getObject('configuration')
-            $rootScope.loggedInUser = user
-            $http.post(configuration.url + ':' + configuration.port + '/user/login', user).then(function(response) {
+            return $http.post(configuration.url + ':' + configuration.port + '/user/login', user).then(function(response) {
                 $http.defaults.headers.common['X-Auth-Token'] = response.headers('X-Auth-Token');
+                if (response.status == 200) {
+                    $rootScope.loggedInUser = user
+                }
             })
         },
         register: function(registration) {
@@ -34,11 +36,16 @@ angular.module('starter.services', [])
 .factory('GarageService', function($http, $log, $localstorage) {
 
     return {
-        toggleGarage: function() {
-            $log.info("Togging garage")
-            var configuration = $localstorage.getObject('configuration')
-            $http.post(configuration.url + ':' + configuration.port + '/garage/toggle', {headers: { 'Content-Type': 'application/json' }})
-        }
+          toggleGarage: function() {
+              $log.info("Togging garage")
+              var configuration = $localstorage.getObject('configuration')
+              $http.post(configuration.url + ':' + configuration.port + '/garage/toggle', {headers: { 'Content-Type': 'application/json' }})
+          },
+          getState: function() {
+              $log.info("Getting garage state")
+              var configuration = $localstorage.getObject('configuration')
+              return $http.get(configuration.url + ':' + configuration.port + '/garage/state')
+          }
         }
 })
 .factory('$localstorage', ['$window', function($window) {

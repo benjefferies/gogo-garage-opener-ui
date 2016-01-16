@@ -1,6 +1,6 @@
 {
   "name": "angular-datetime",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "homepage": "https://github.com/eight04/angular-datetime",
   "authors": [
     "eight <eight04@gmail.com>"
@@ -33,14 +33,13 @@
   "devDependencies": {
     "angular-mocks": "1.2.x"
   },
-  "_release": "2.0.0",
+  "_release": "2.0.1",
   "_resolution": {
     "type": "version",
-    "tag": "v2.0.0",
-    "commit": "ddc8c34e283ff7dd993ff7c58e0a38eb7e2fd784"
+    "tag": "v2.0.1",
+    "commit": "80d8548dd9ebcffb82ac24f66bd9cc4a5ed4a941"
   },
   "_source": "git://github.com/eight04/angular-datetime.git",
   "_target": "~2.0.0",
-  "_originalSource": "angular-datetime",
-  "_direct": true
+  "_originalSource": "angular-datetime"
 }
