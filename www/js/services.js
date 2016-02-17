@@ -19,7 +19,7 @@ angular.module('starter.services', [])
             login: function(user) {
                 $log.info("Logging in with " + JSON.stringify(user.email))
                 var configuration = $localstorage.getObject('configuration')
-                return $http.post(configuration.url + ':' + configuration.port + '/user/login', user).then(function(response) {
+                return $http.post(''.concat(configuration.url, ':', configuration.port, '/user/login'), user).then(function(response) {
                     $http.defaults.headers.common['X-Auth-Token'] = response.headers('X-Auth-Token');
                     if (response.status == 200) {
                         $rootScope.loggedInUser = user
@@ -29,6 +29,9 @@ angular.module('starter.services', [])
             configure: function(registration) {
                 $log.info("Saving configuration " + JSON.stringify(registration))
                 $localstorage.setObject('configuration', registration)
+            },
+            getConfiguration: function() {
+                return $localstorage.getObject('configuration')
             }
         }
     })
