@@ -85,14 +85,18 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
         $urlRouterProvider.otherwise('/tab/dash');
 
     })
-    .run(function($rootScope, $location, $log) {
+    .run(function($rootScope, $location, $log, UserService) {
         $rootScope.$on("$stateChangeStart", function(event, toState, toParams, fromState) {
             $log.info('Changing path from' + fromState.name + ' to ' + toState.name)
-            if ($rootScope.loggedInUser == null) {
-                // no logged user, redirect to /login
-                if (toState.templateUrl === "login") {} else {
-                    $location.path("/login");
-                }
+            if (!UserService.isTokenSet()) {
+                UserService.syncToken();
+            }
+            if (!UserService.isTokenSet() && toState.name !== "login") {
+                // Token not set, redirect to /login
+                $location.path("/login");
+            } else if (UserService.isTokenSet() && toState.name === "login") {
+                // Token now set, redirect to dash
+                $location.path("/tab/dash");
             }
         })
     })

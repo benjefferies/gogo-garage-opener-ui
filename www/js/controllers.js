@@ -3,7 +3,7 @@ angular.module('starter.controllers', ['ionic'])
 
 .controller('HeaderController', function($scope, $ionicModal, UserService) {
 
-        $scope.configuration = {};
+        $scope.configuration = UserService.getConfiguration();
 
         $ionicModal.fromTemplateUrl('templates/settings.html', {
             scope: $scope
@@ -17,11 +17,17 @@ angular.module('starter.controllers', ['ionic'])
         }
 
     })
-    .controller('DashCtrl', function($scope, GarageService) {
+    .controller('DashCtrl', function($scope, GarageService, $ionicPopup) {
 
         function getState() {
             GarageService.getState().then(function(response) {
                 $scope.garage = response.data
+            }, function(response) {
+                alert = {
+                  title: 'Error connecting',
+                  template: ''.concat(response.statusText, ', Message: ', response.data)
+                }
+                var popup = $ionicPopup.alert(alert);
             })
         }
 

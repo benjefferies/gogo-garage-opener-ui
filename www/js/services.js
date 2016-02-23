@@ -15,23 +15,43 @@ angular.module('starter.services', [])
     })
     .factory('UserService', function($http, $log, $localstorage, $rootScope) {
 
+        function configure(configuration) {
+            var oldConfiguration = getConfiguration();
+            var configuration = {
+                url: configuration.hasOwnProperty('url') ? configuration.url : oldConfiguration.url,
+                port: configuration.hasOwnProperty('port') ? configuration.port : oldConfiguration.port,
+                token: configuration.hasOwnProperty('token') ? configuration.token : oldConfiguration.token
+            }
+            $log.info("Saving configuration " + JSON.stringify(configuration))
+            $localstorage.setObject('configuration', configuration)
+        }
+
+        function getConfiguration() {
+            return $localstorage.getObject('configuration')
+        }
+
         return {
             login: function(user) {
                 $log.info("Logging in with " + JSON.stringify(user.email))
                 var configuration = $localstorage.getObject('configuration')
                 return $http.post(''.concat(configuration.url, ':', configuration.port, '/user/login'), user).then(function(response) {
-                    $http.defaults.headers.common['X-Auth-Token'] = response.headers('X-Auth-Token');
                     if (response.status == 200) {
-                        $rootScope.loggedInUser = user
+                        var token = response.headers('X-Auth-Token');
+                        $http.defaults.headers.common['X-Auth-Token'] = token;
+                        configuration.token = token;
+                        configure(configuration)
                     }
                 })
             },
-            configure: function(registration) {
-                $log.info("Saving configuration " + JSON.stringify(registration))
-                $localstorage.setObject('configuration', registration)
+            configure: configure,
+            getConfiguration: getConfiguration,
+            syncToken: function() {
+                var configuration = $localstorage.getObject('configuration')
+                $http.defaults.headers.common['X-Auth-Token'] = configuration.token;
             },
-            getConfiguration: function() {
-                return $localstorage.getObject('configuration')
+            isTokenSet: function() {
+                var configuration = $localstorage.getObject('configuration')
+                return $http.defaults.headers.common['X-Auth-Token'] == configuration.token && configuration.hasOwnProperty('token');
             }
         }
     })
