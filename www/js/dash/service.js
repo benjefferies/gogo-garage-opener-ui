@@ -1,20 +1,18 @@
 angular.module('garage')
-.factory('DashService', function($http, $log, AccountService) {
+.factory('DashService', function($http, $log, UrlBuilder) {
 
     return {
         toggleGarage: function() {
-            $log.info("Togging garage")
-            var configuration = AccountService.getConfiguration();
-            $http.post(configuration.url + ':' + configuration.port + '/garage/toggle', {
+            $log.info('Opening/Closing garage')
+            $http.post(UrlBuilder.build('/garage/toggle'), {
                 headers: {
                     'Content-Type': 'application/json'
                 }
             })
         },
         getState: function() {
-            $log.info("Getting garage state")
-            var configuration = AccountService.getConfiguration();
-            return $http.get(configuration.url + ':' + configuration.port + '/garage/state')
+            $log.info('Getting garage state')
+            return $http.get(UrlBuilder.build('/garage/state'))
         }
     }
 })

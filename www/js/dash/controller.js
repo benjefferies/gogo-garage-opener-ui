@@ -7,15 +7,21 @@ angular.module('garage')
             $scope.garage = response.data
         }, function(response) {
             alert = {
-              title: 'Error connecting',
-              template: ''.concat(response.statusText, ', Message: ', response.data)
+              title: 'Error: '.concat(response.status),
+              template: 'Could not load garage door status'
             }
             var popup = $ionicPopup.alert(alert);
         })
     }
 
     $scope.toggleGarage = function() {
-        DashService.toggleGarage();
+        DashService.toggleGarage().catch(function(response) {
+            alert = {
+              title: 'Error code: '.concat(response.status),
+              template: 'Could not open/close garage'
+            }
+            var popup = $ionicPopup.alert(alert);
+        })
     }
 
     getState();

@@ -16,18 +16,31 @@ angular.module('garage', ['ionic', 'ionic-timepicker'])
         }
     });
 })
-.run(function($rootScope, $location, $log, AccountService) {
-    $rootScope.$on("$stateChangeStart", function(event, toState, toParams, fromState) {
-        $log.info('Changing path from' + fromState.name + ' to ' + toState.name)
-        if (!AccountService.isTokenSet()) {
-            AccountService.syncToken();
+.run(function($rootScope, $location, $log, ConfigurationService) {
+    $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState) {
+        $log.info('State transition ['.concat(fromState.name, '] -> [' + toState.name, ']'))
+        if (!ConfigurationService.isTokenSet()) {
+            ConfigurationService.syncToken();
         }
-        if (!AccountService.isTokenSet() && toState.name !== "login") {
+        if (!ConfigurationService.isTokenSet() && toState.name !== 'login') {
             // Token not set, redirect to /login
-            $location.path("/login");
-        } else if (AccountService.isTokenSet() && toState.name === "login") {
+            $location.path('/login');
+        } else if (ConfigurationService.isTokenSet() && toState.name === 'login') {
             // Token now set, redirect to dash
-            $location.path("/tab/dash");
+            $location.path('/tab/dash');
         }
     })
 })
+.factory('authInterceptor', ['$log', '$location', '$q', function($log, $location, $q) {
+    return {
+        'responseError': function(rejection) {
+            if (rejection.status === 401) {
+                $location.path('/login');
+                return $q.reject(rejection);
+            }
+         }
+    };
+}])
+.config(['$httpProvider', function($httpProvider) {
+    $httpProvider.interceptors.push('authInterceptor');
+}]);

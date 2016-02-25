@@ -1,8 +1,8 @@
 'use strict'
 angular.module('garage')
-.controller('HeaderController', function($scope, $ionicModal, AccountService) {
+.controller('HeaderController', function($scope, $ionicModal, ConfigurationService) {
 
-    $scope.configuration = AccountService.getConfiguration();
+    $scope.configuration = ConfigurationService.getConfiguration();
 
     $ionicModal.fromTemplateUrl('templates/settings.html', {
         scope: $scope
@@ -11,7 +11,7 @@ angular.module('garage')
     });
 
     $scope.configure = function() {
-        AccountService.setConfiguration($scope.configuration)
+        ConfigurationService.setConfiguration($scope.configuration)
         $scope.modal.hide()
     }
 
