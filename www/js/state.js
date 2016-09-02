@@ -40,26 +40,6 @@ angular.module('garage')
                     controller: 'AccountCtrl'
                 }
             }
-        })
-        .state('account-add', {
-            parent: 'tab',
-            url: '/account-add',
-            views: {
-                'tab-account': {
-                    templateUrl: 'templates/account-add.html',
-                    controller: 'AccountCtrl'
-                }
-            }
-        })
-        .state('account-add-days', {
-            parent: 'tab',
-            url: '/account-add-days',
-            views: {
-                'tab-account': {
-                    templateUrl: 'templates/account-add-days.html',
-                    controller: 'AccountCtrl'
-                }
-            }
         });
 
 

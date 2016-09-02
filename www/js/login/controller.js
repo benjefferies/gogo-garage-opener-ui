@@ -1,6 +1,6 @@
 'use strict'
 angular.module('garage')
-.controller('LoginCtrl', function($scope, UserService, AccountService, $ionicModal, $ionicLoading, $location, $ionicPopup, $log) {
+.controller('LoginCtrl', function($scope, UserService, ConfigurationService, $ionicModal, $ionicLoading, $location, $ionicPopup, $log) {
 
 
     $scope.user = {}
@@ -9,7 +9,7 @@ angular.module('garage')
         UserService.login($scope.user).then(function() {
             $location.path('#/tab/dash')
         }, function(res) {
-            var config = UserService.getConfiguration()
+            var config = ConfigurationService.getConfiguration()
             var alert = {}
             switch (res.status) {
                 case 0: alert.title = 'Could not connect!';
@@ -23,5 +23,16 @@ angular.module('garage')
             $log.warn('Failed to login with status [%s]', res.status)
         })
     }
+
+    function initialiseConfiguration() {
+        if (!ConfigurationService.isConfigured()) {
+            var alert = {}
+            alert.title = 'Server settings';
+            alert.template = 'Server settings are not configured';
+            var popup = $ionicPopup.alert(alert);
+        }
+    }
+
+    initialiseConfiguration()
 
 })

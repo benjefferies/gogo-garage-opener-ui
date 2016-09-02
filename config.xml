@@ -2,9 +2,9 @@
 <widget id="com.ionicframework.gogogarageopenerui416115" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
   <name>gogo-garage-opener-ui</name>
   <description>
-        An Ionic Framework and Cordova project.
+        Client of gogo-garage-opener, a service to allow to remotely open and close your garage door.
     </description>
-  <author email="benjefferies@echosoft.uk" href="http://echosoft.uk/">
+  <author email="benjefferies@echosoft.uk" href="https://github.com/benjefferies/gogo-garage-opener-ui">
       Ben Jefferies
     </author>
   <content src="index.html"/>

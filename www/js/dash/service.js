@@ -4,7 +4,7 @@ angular.module('garage')
     return {
         toggleGarage: function() {
             $log.info('Opening/Closing garage')
-            $http.post(UrlBuilder.build('/garage/toggle'), {
+            return $http.post(UrlBuilder.build('/garage/toggle'), {
                 headers: {
                     'Content-Type': 'application/json'
                 }

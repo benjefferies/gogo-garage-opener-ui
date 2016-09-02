@@ -22,6 +22,10 @@ angular.module('garage')
         getConfiguration: function() {
             return JSON.parse($window.localStorage['configuration'] || '{}');
         },
+        isConfigured: function() {
+            var config = $window.localStorage['configuration']
+            return config != null && config != '' && config != '{}'
+        },
         syncToken: function() {
            var token = getToken();
            $http.defaults.headers.common['X-Auth-Token'] = token;

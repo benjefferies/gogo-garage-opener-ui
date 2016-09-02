@@ -6,7 +6,7 @@ angular.module('garage')
         DashService.getState().then(function(response) {
             $scope.garage = response.data
         }, function(response) {
-            alert = {
+            var alert = {
               title: 'Error: '.concat(response.status),
               template: 'Could not load garage door status'
             }
@@ -16,7 +16,7 @@ angular.module('garage')
 
     $scope.toggleGarage = function() {
         DashService.toggleGarage().catch(function(response) {
-            alert = {
+            var alert = {
               title: 'Error code: '.concat(response.status),
               template: 'Could not open/close garage'
             }
