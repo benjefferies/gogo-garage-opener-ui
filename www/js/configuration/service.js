@@ -1,5 +1,5 @@
 angular.module('garage')
-.factory('ConfigurationService', ['$window', '$http', function($window, $http, UrlBuilder) {
+.factory('ConfigurationService', ['$window', '$http', function($window, $http) {
 
     function syncToken() {
        var token = getToken();

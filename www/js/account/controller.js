@@ -1,6 +1,6 @@
 'use strict'
 angular.module('garage')
-.controller('AccountCtrl', function($scope, $ionicLoading, $ionicModal, AccountService, UrlBuilder, $log) {
+.controller('AccountCtrl', function($scope, $ionicModal, AccountService, UrlBuilder, $log) {
 
     $scope.generatePin = function(time) {
         $log.debug("Generating pin")

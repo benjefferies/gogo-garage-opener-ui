@@ -1,6 +1,6 @@
 'use strict'
 angular.module('garage')
-.controller('LoginCtrl', function($scope, UserService, ConfigurationService, $ionicModal, $ionicLoading, $location, $ionicPopup, $log) {
+.controller('LoginCtrl', function($scope, UserService, ConfigurationService, $location, $ionicPopup, $log) {
 
 
     $scope.user = {}
@@ -11,16 +11,16 @@ angular.module('garage')
         }, function(res) {
             var config = ConfigurationService.getConfiguration()
             var alert = {}
-            switch (res.status) {
-                case 0: alert.title = 'Could not connect!';
-                        alert.template = 'Could not connect using '.concat(config.url, ':',config.port);
-                        break;
-                case 400: alert.title = 'Incorrect username or password';
-                          alert.template = 'Please retry with correct credentials';
-                          break;
+            if (!res || res.status == 0) {
+                alert.title = 'Could not connect';
+                alert.template = 'Have you configured the URL in the settings page?';
+                $log.warn('Failed to connect to server')
+            } else if (res.status == 400) {
+                alert.title = 'Incorrect username or password';
+                alert.template = 'Please retry with correct credentials';
+                $log.warn('Failed to login with status [%s]', res.status)
             }
             var popup = $ionicPopup.alert(alert);
-            $log.warn('Failed to login with status [%s]', res.status)
         })
     }
 

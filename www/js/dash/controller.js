@@ -1,8 +1,8 @@
 'use strict'
 angular.module('garage')
-.controller('DashCtrl', function($scope, DashService, $ionicPopup) {
+.controller('DashCtrl', function($scope, DashService, $ionicPopup, $interval, $timeout, ConfigurationService, $log) {
 
-    function getState() {
+    $scope.updateState = function() {
         DashService.getState().then(function(response) {
             $scope.garage = response.data
         }, function(response) {
@@ -11,11 +11,22 @@ angular.module('garage')
               template: 'Could not load garage door status'
             }
             var popup = $ionicPopup.alert(alert);
-        })
+        }).finally(function() {
+            // Stop the ion-refresher from spinning
+            $scope.$broadcast('scroll.refreshComplete');
+        });
+    }
+    function getGarageTimeout() {
+        var config = ConfigurationService.getConfiguration()
+        var timeout = config.garageTimeout == 0 || config.garageTimeout == null ? 60 : config.garageTimeout
     }
 
-    $scope.toggleGarage = function() {
-        DashService.toggleGarage().catch(function(response) {
+    function toggleGarage() {
+        $log.info('Opening or closing garage')
+        return DashService.toggleGarage().then(function(response) {
+            var intervals = getGarageTimeout()/2
+            $interval($scope.updateState, 1000, intervals)
+        }).catch(function(response) {
             var alert = {
               title: 'Error code: '.concat(response.status),
               template: 'Could not open/close garage'
@@ -24,5 +35,18 @@ angular.module('garage')
         })
     }
 
-    getState();
+    $scope.toggleGarage = function() {
+        toggleGarage()
+    }
+
+    $scope.openAndCloseGarage = function() {
+        $log.info('Opening and then closing garage')
+        toggleGarage().then(function(response) {
+            $timeout(function() {
+                toggleGarage()
+            }, getGarageTimeout())
+        })
+    }
+
+    $scope.updateState();
 });

@@ -1,6 +1,6 @@
 'use strict'
 angular.module('garage')
-.controller('HeaderController', function($scope, $ionicModal, $ionicLoading, ConfigurationService, $ionicPopup) {
+.controller('HeaderController', function($scope, $ionicModal, ConfigurationService) {
 
     $scope.configuration = ConfigurationService.getConfiguration();
     $scope.location = {}
