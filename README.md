@@ -1,3 +1,5 @@
+# This has been deprecated. See https://github.com/benjefferies/gogo-garage-opener-react-native
+
 ### gogo-garage-opener
 
 gogo-garage-opener-ui is the UI implementation of [gogo-garage-opener](https://github.com/benjefferies/gogo-garage-opener)
